@@ -32,8 +32,15 @@ features_train, features_test, labels_train, labels_test = preprocess()
 from sklearn.naive_bayes import GaussianNB
 # classifier
 gnb = GaussianNB()
-y_pred = gnb.fit(features_train, labels_train).predict(features_test)
+t0 = time()
+gnb.fit(features_train, labels_train)
+print "Training time:", round(time()-t0, 3), "s"
+
+t0 = time()
+y_pred = gnb.predict(features_test)
+print "Predict time:", round(time()-t0, 3), "s"
 
 import numpy as np
 from sklearn.metrics import accuracy_score
-accuracy_score(labels_test, y_pred)
+print accuracy_score(labels_test, y_pred)
+
