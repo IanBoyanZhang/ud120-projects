@@ -30,15 +30,21 @@ labels_train = labels_train[:len(labels_train)/100]
 
 #########################################################
 from sklearn.svm import SVC
-clf = SVC(kernel="linear")
-t0 = time()
-clf.fit(features_train, labels_train)
-print"Training time is: ", round(time() - t0, 3), "s"
+from numpy import logspace
+# clf = SVC(kernel="linear")
+# Trying different values of C
+for C in logspace(1.0, 4.0, num=4):
+  print "C: ", C
+  clf = SVC(kernel="rbf", C=C)
 
-t0 = time()
-pred = clf.predict(features_test);
-print"Predication time is: ", round(time() - t0, 3), "s"
+  t0 = time()
+  clf.fit(features_train, labels_train)
+  print"Training time is: ", round(time() - t0, 3), "s"
 
-from sklearn.metrics import accuracy_score
-acc = accuracy_score(pred, labels_test)
-print acc
+  t0 = time()
+  pred = clf.predict(features_test);
+  print"Predication time is: ", round(time() - t0, 3), "s"
+
+  from sklearn.metrics import accuracy_score
+  acc = accuracy_score(pred, labels_test)
+  print acc
